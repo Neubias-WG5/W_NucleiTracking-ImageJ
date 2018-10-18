@@ -3,13 +3,12 @@ import sys
 from subprocess import call
 
 from cytomine import CytomineJob
-from cytomine.models import Annotation, Job, ImageInstanceCollection, AnnotationCollection, Property
+from cytomine.models import Annotation, Job, ImageInstanceCollection, AnnotationCollection, Property, ImageGroupCollection
 from shapely.affinity import affine_transform
 from skimage import io
 
 from annotation_exporter import mask_to_objects_2d
 from neubiaswg5.metrics import computemetrics_batch
-
 
 def main(argv):
     # 0. Initialize Cytomine client and job
@@ -37,19 +36,22 @@ def main(argv):
             os.makedirs(tmp_path)
 
         # 2. Download the images (first input, then ground truth image)
+
         cj.job.update(progress=1, statusComment="Downloading images (to {})...".format(in_path))
-        image_instances = ImageInstanceCollection().fetch_with_filter("project", cj.parameters.cytomine_id_project)
-        input_images = [i for i in image_instances if gt_suffix not in i.originalFilename]
-        gt_images = [i for i in image_instances if gt_suffix in i.originalFilename]
+        image_group = ImageGroupCollection().fetch_with_filter("project", cj.parameters.cytomine_id_project)
+
+        input_images = [i for i in image_group if gt_suffix not in i.name]
+        gt_images = [i for i in image_group if gt_suffix in i.name]
 
         for input_image in input_images:
             input_image.download(os.path.join(in_path, "{id}.tif"))
 
         for gt_image in gt_images:
-            related_name = gt_image.originalFilename.replace(gt_suffix, '')
-            related_image = [i for i in input_images if related_name == i.originalFilename]
+            related_name = gt_image.name.replace(gt_suffix, '')
+            related_image = [i for i in input_images if related_name == i.name]
             if len(related_image) == 1:
                 gt_image.download(os.path.join(gt_path, "{}.tif".format(related_image[0].id)))
+
 
         # 3. Call the image analysis workflow using the run script
         cj.job.update(progress=25, statusComment="Launching workflow...")
