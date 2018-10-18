@@ -7,7 +7,7 @@ from cytomine.models import Annotation, Job, ImageInstanceCollection, Annotation
 from shapely.affinity import affine_transform
 from skimage import io
 
-from annotation_exporter import mask_to_objects_2d
+from annotation_exporter import mask_to_objects_3d
 from neubiaswg5.metrics import computemetrics_batch
 
 def main(argv):
@@ -66,13 +66,13 @@ def main(argv):
 
         # 4. Upload the annotation and labels to Cytomine (annotations are extracted from the mask using
         # the AnnotationExporter module)
-        for image in cj.monitor(input_images, start=60, end=80, period=0.1, prefix="Extracting and uploading polygons from masks"):
+        '''        for image in cj.monitor(input_images, start=60, end=80, period=0.1, prefix="Extracting and uploading polygons from masks"):
             file = "{}.tif".format(image.id)
             path = os.path.join(out_path, file)
             data = io.imread(path)
 
             # extract objects
-            slices = mask_to_objects_2d(data)
+            slices = mask_to_objects_3d(data)
 
             print("Found {} polygons in this image {}.".format(len(slices), image.id))
 
@@ -86,7 +86,7 @@ def main(argv):
                     ]
                 ))
             collection.save()
-
+        '''
         # 5. Compute and upload the metrics
         cj.job.update(progress=80, statusComment="Computing and uploading metrics...")
         outfiles, reffiles = zip(*[
@@ -95,7 +95,7 @@ def main(argv):
             for image in input_images
         ])
 
-        results = computemetrics_batch(outfiles, reffiles, "ObjSeg", tmp_path)
+        results = computemetrics_batch(outfiles, reffiles, "PrtTrk", tmp_path)
 
         for key, value in results.items():
             Property(cj.job, key=key, value=str(value)).save()
