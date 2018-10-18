@@ -12,3 +12,7 @@ RUN cd /fiji/plugins && \
 wget https://github.com/ijpb/MorphoLibJ/releases/download/v1.3.6/MorphoLibJ_-1.3.6.jar
 
 ADD NucleiTracking.ijm /fiji/macros/macro.ijm
+
+ADD wrapper.py /app/wrapper.py
+
+ENTRYPOINT ["python", "/app/wrapper.py"]
