@@ -1,5 +1,5 @@
-inputDir = "/dockershare/766/in/";
-outputDir = "/dockershare/766/out/";
+inputDir = "/dockershare/in/";
+outputDir = "/dockershare/out/";
 
 // Params
 GaussRad = 3;
@@ -36,6 +36,15 @@ for(i=0; i<images.length; i++) {
 			rename("Mask");
 			run("Connected Components Labeling", "connectivity=26 type=[16 bits]");
 			run("Maximum...", "radius="+d2s(OpenRad,0)+" stack");
+			selectImage("Mask");
+			run("Ultimate Points", "stack");
+			setThreshold(1, 255);
+			run("Convert to Mask", "method=Default background=Dark");
+			run("Divide...", "value=255 stack");
+			run("16-bit");
+			imageCalculator("Multiply create stack", "Mask","Mask-lbl");
+			run("Grays");
+			// End of workflow
 			save(outputDir + "/" + image);
 			run("Close All");
 		}
