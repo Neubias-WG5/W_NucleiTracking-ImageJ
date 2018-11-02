@@ -55,8 +55,9 @@ def main(argv):
 
         # 3. Call the image analysis workflow using the run script
         cj.job.update(progress=25, statusComment="Launching workflow...")
-        command = "/usr/bin/xvfb-run java -Xmx6000m -cp /fiji/jars/ij.jar ij.ImageJ --headless --console " \
-                  "-macro macro.ijm \"input={}, output={}, gauss_rad={}, threshold={}, open_rad={}\"".format(in_path, out_path, cj.parameters.ij_gauss_radius, cj.parameters.ij_threshold, cj.parameters.ij_open_radius)
+        command = "/usr/bin/xvfb-run ./ImageJ-linux64 -macro macro.ijm " \
+		"\"input={}, output={}, gauss_rad={}, threshold={}, open_rad={}\" -batch".format(in_path, out_path, cj.parameters.ij_gauss_radius, cj.parameters.ij_threshold, cj.parameters.ij_open_radius)
+
         return_code = call(command, shell=True, cwd="/fiji")  # waits for the subprocess to return
 
         if return_code != 0:

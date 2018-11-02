@@ -25,7 +25,7 @@ images = getFileList(inputDir);
 for(i=0; i<images.length; i++) {
 	image = images[i];
 		if (endsWith(image, ".tif")) {
-			open(inputDir + "/" + image);
+			run("Bio-Formats Importer", "open="+inputDir + "/" + image+" autoscale color_mode=Default rois_import=[ROI manager] view=Hyperstack stack_order=XYCZT");
 			// Workflow
 			run("Gaussian Blur...", "sigma="+d2s(GaussRad,0)+" stack");
 			setThreshold(Thr, 255);
@@ -44,8 +44,12 @@ for(i=0; i<images.length; i++) {
 			run("16-bit");
 			imageCalculator("Multiply create stack", "Mask","Mask-lbl");
 			run("Grays");
+			run("Properties...", "channels=1 slices=1 frames="+nSlices);
 			// End of workflow
-			save(outputDir + "/" + image);
+			if (!endsWith(image, ".ome.tif")) image = replace(image, ".tif", ".ome.tif");
+			run("Bio-Formats Exporter", "save="+outputDir + "/" + image+" export compression=Uncompressed");
+			nameWithoutOme = replace(image, ".ome", ""); 			
+			File.rename(outputDir+"/"+image, outputDir+"/"+nameWithoutOme);
 			run("Close All");
 		}
 }
