@@ -37,6 +37,7 @@ for(i=0; i<images.length; i++) {
 			run("Connected Components Labeling", "connectivity=26 type=[16 bits]");
 			run("Maximum...", "radius="+d2s(OpenRad,0)+" stack");
 			selectImage("Mask");
+			run("Maximum...", "radius="+d2s(OpenRad,0)+" stack");
 			run("Ultimate Points", "stack");
 			setThreshold(1, 255);
 			run("Convert to Mask", "method=Default background=Dark");
@@ -45,6 +46,7 @@ for(i=0; i<images.length; i++) {
 			imageCalculator("Multiply create stack", "Mask","Mask-lbl");
 			run("Grays");
 			run("Properties...", "channels=1 slices=1 frames="+nSlices);
+			mergePoints();			
 			// End of workflow
 			if (!endsWith(image, ".ome.tif")) image = replace(image, ".tif", ".ome.tif");
 			run("Bio-Formats Exporter", "save="+outputDir + "/" + image+" export compression=Uncompressed");
@@ -53,4 +55,25 @@ for(i=0; i<images.length; i++) {
 			run("Close All");
 		}
 }
-run("Quit");
+//run("Quit");
+
+function mergePoints() { 
+	for (i = 1; i < nSlices; i++) {
+		setSlice(i);
+		getStatistics(area, mean, min, max, std, histogram);
+		getHistogram(values, counts, max+1, 0, max+1);
+		for (j = 1; j < counts.length; j++) {
+			if (counts[j]>1) mergePointsWithValue(round(values[j]));
+		}
+	}
+}
+
+function mergePointsWithValue(value) {
+	setThreshold(value, value);
+	run("Create Selection");
+	run("Clear", "slice");
+	getSelectionBounds(x, y, width, height);
+	setColor(value);
+	fillOval((x+width)/2, (y+height)/2, 1, 1);
+	run("Select None");
+}
