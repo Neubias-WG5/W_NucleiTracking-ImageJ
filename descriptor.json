@@ -82,7 +82,7 @@
             "id": "ij_open_radius",
             "value-key": "@ID",
             "command-line-flag": "--@id",
-            "name": "Threshold",
+            "name": "Open radius",
             "description": "Radius for the morph. open operation",
             "type": "Number",
             "default-value": 7,
