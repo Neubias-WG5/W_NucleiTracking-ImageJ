@@ -74,6 +74,6 @@ function mergePointsWithValue(value) {
 	run("Clear", "slice");
 	getSelectionBounds(x, y, width, height);
 	setColor(value);
-	fillOval((x+width)/2, (y+height)/2, 1, 1);
+	fillOval(x+(width/2), y+(height/2), 1, 1);
 	run("Select None");
 }
