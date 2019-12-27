@@ -8,7 +8,7 @@ from neubiaswg5.helpers import NeubiasJob, prepare_data, upload_data, upload_met
 def main(argv):
     with NeubiasJob.from_cli(argv) as nj:
         problem_cls = CLASS_PRTTRK
-        is_2d = True
+        is_2d = False
 
         nj.job.update(status=Job.RUNNING, progress=0, statusComment="Initialisation...")
         in_images, gt_images, in_path, gt_path, out_path, tmp_path = prepare_data(problem_cls, nj, is_2d=is_2d, **nj.flags)
