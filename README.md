@@ -1,2 +1,2 @@
 # W_NucleiTracking-ImageJ
-Track nuclei in a time series. The tracking uses a 3D-object segmentation with watershed to track the nuclei.
+Track non dividing nuclei in a 2D time-lapse. The tracking is based on 3D segmentation (time seen as third dimension) + watershed.
