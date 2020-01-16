@@ -59,7 +59,7 @@
             "set-by-server": true
         },
         {
-            "id": "ij_gauss_radius",
+            "id": "ij_radius",
             "value-key": "@ID",
             "command-line-flag": "--@id",
             "name": "Radius",
@@ -83,7 +83,7 @@
             "value-key": "@ID",
             "command-line-flag": "--@id",
             "name": "Open radius",
-            "description": "Radius for the morph. open operation",
+            "description": "Radius for the morphological opening",
             "type": "Number",
             "default-value": 7,
             "optional": true
