@@ -6,7 +6,7 @@
     },
     "schema-version": "cytomine-0.1",
     "description": "Track nuclei in a time series by doing 3D segmentation.",
-    "command-line": "python wrapper.py CYTOMINE_HOST CYTOMINE_PUBLIC_KEY CYTOMINE_PRIVATE_KEY CYTOMINE_ID_PROJECT CYTOMINE_ID_SOFTWARE IJ_RADIUS IJ_THRESHOLD IJ_OPEN_RADIUS",
+    "command-line": "python wrapper.py CYTOMINE_HOST CYTOMINE_PUBLIC_KEY CYTOMINE_PRIVATE_KEY CYTOMINE_ID_PROJECT CYTOMINE_ID_SOFTWARE IJ_RADIUS IJ_THRESHOLD IJ_OPEN_RADIUS ",
     "inputs": [
         {
             "id": "cytomine_host",
