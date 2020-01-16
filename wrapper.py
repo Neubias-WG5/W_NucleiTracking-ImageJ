@@ -16,8 +16,8 @@ def main(argv):
         # 2. Call the image analysis workflow
         nj.job.update(progress=25, statusComment="Launching workflow...")
         command = "/usr/bin/xvfb-run ./ImageJ-linux64 -macro macro.ijm " \
-                  "\"input={}, output={}, ij_radius={}, ij_threshold={}, ij_open_radius={}\" -batch".format(
-            in_path, out_path, nj.parameters.ij_radius, nj.parameters.ij_threshold, nj.parameters.ij_open_radius)
+                  "\"input={}, output={}, ij_radius={}, ij_threshold={}, ij_erode_radius={}\" -batch".format(
+            in_path, out_path, nj.parameters.ij_radius, nj.parameters.ij_threshold, nj.parameters.ij_erode_radius)
 
         return_code = call(command, shell=True, cwd="/fiji")  # waits for the subprocess to return
 
