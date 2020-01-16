@@ -1,2 +1,2 @@
 # W_NucleiTracking-ImageJ
-Track non dividing nuclei in a 2D time-lapse. The tracking is based on 3D segmentation (time seen as third dimension) + watershed.
+Track nuclei in a time series  of 2D images. The images are first filtered by Gaussian blur (user defined radius), thresholded (user defined level) and binary watershed is applied. Next, erosion is performed (user defined radius) and the particles belonging to the same 3D tube (mask series viewed as 3D mask) are labeled with same ID. The particles are found by ultimate point erosion of the 2D masks.
