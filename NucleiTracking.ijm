@@ -15,9 +15,9 @@ for(i=0; i<parts.length; i++) {
 	nameAndValue = split(parts[i], "=");
 	if (indexOf(nameAndValue[0], "input")>-1) inputDir=nameAndValue[1];
 	if (indexOf(nameAndValue[0], "output")>-1) outputDir=nameAndValue[1];
-	if (indexOf(nameAndValue[0], "gauss_rad")>-1) GaussRad=nameAndValue[1];
-	if (indexOf(nameAndValue[0], "threshold")>-1) Thr=nameAndValue[1];
-	if (indexOf(nameAndValue[0], "open_rad")>-1) OpenRad=nameAndValue[1];
+	if (indexOf(nameAndValue[0], "ij_radius")>-1) GaussRad=nameAndValue[1];
+	if (indexOf(nameAndValue[0], "ij_threshold")>-1) Thr=nameAndValue[1];
+	if (indexOf(nameAndValue[0], "ij_open_radius")>-1) OpenRad=nameAndValue[1];
 		
 }
 
