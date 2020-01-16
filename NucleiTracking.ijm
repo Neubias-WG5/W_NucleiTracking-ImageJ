@@ -4,7 +4,7 @@ outputDir = "/dockershare/out/";
 // Params
 GaussRad = 3;
 Thr = 60;
-OpenRad = 7; 
+ErodeRad = 7; 
 
 arg = getArgument();
 parts = split(arg, ",");
@@ -17,7 +17,7 @@ for(i=0; i<parts.length; i++) {
 	if (indexOf(nameAndValue[0], "output")>-1) outputDir=nameAndValue[1];
 	if (indexOf(nameAndValue[0], "ij_radius")>-1) GaussRad=nameAndValue[1];
 	if (indexOf(nameAndValue[0], "ij_threshold")>-1) Thr=nameAndValue[1];
-	if (indexOf(nameAndValue[0], "ij_open_radius")>-1) OpenRad=nameAndValue[1];
+	if (indexOf(nameAndValue[0], "ij_erode_radius")>-1) ErodeRad=nameAndValue[1];
 		
 }
 
@@ -32,12 +32,12 @@ for(i=0; i<images.length; i++) {
 			setOption("BlackBackground", false);
 			run("Convert to Mask", "method=Default background=Dark");
 			run("Watershed", "stack");
-			run("Minimum...", "radius="+d2s(OpenRad,0)+" stack");
+			run("Minimum...", "radius="+d2s(ErodeRad,0)+" stack");
 			rename("Mask");
 			run("Connected Components Labeling", "connectivity=26 type=[16 bits]");
-			run("Maximum...", "radius="+d2s(OpenRad,0)+" stack");
+			run("Maximum...", "radius="+d2s(ErodeRad,0)+" stack");
 			selectImage("Mask");
-			run("Maximum...", "radius="+d2s(OpenRad,0)+" stack");
+			run("Maximum...", "radius="+d2s(ErodeRad,0)+" stack");
 			run("Ultimate Points", "stack");
 			setThreshold(1, 255);
 			run("Convert to Mask", "method=Default background=Dark");
