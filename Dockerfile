@@ -14,7 +14,7 @@ RUN git clone https://github.com/cytomine-uliege/Cytomine-python-client.git && \
 # Install Neubias-W5-Utilities (annotation exporter, compute metrics, helpers,...)
 RUN apt-get update && apt-get install libgeos-dev -y && apt-get clean
 RUN git clone https://github.com/Neubias-WG5/biaflows-utilities.git && \
-    cd /biaflows-utilities/ && git checkout tags/v0.9.1 && pip install .
+    cd /biaflows-utilities/ && git checkout tags/v0.9.2 && pip install .
 
 # install utilities binaries
 RUN chmod +x /biaflows-utilities/bin/*
@@ -63,6 +63,8 @@ RUN cd /fiji/plugins && \
 # add the local files
 ADD NucleiTracking.ijm /fiji/macros/macro.ijm
 ADD wrapper.py /app/wrapper.py
+
+ADD descriptor.json /app/descriptor.json
 
 # set the entrypoint
 ENTRYPOINT ["python", "/app/wrapper.py"]
